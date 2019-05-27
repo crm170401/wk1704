@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.MokuaiMapper">
+
+	<select id="selectMoKuai" parameterType="fenye"
+		resultType="mokuai">
+		SELECT DISTINCT mokuai.mkid,mokuai.mkname ,mokuai.mkzhixiang 
+		FROM teacher
+		INNER JOIN juetea ON teacher.teacherid=juetea.tid
+		INNER JOIN juese ON juetea.jeid=juese.jeid
+		INNER JOIN mokuaigl ON juese.jeid=mokuaigl.mkjueseid
+		INNER JOIN mokuai ON mokuaigl.mkid=mokuai.mkid
+		limit #{page},#{pageSize}
+
+	</select>
+
+
+	<select id="selectCountMk" parameterType="fenye"
+		resultType="int">
+		SELECT DISTINCT count(1)
+		FROM teacher
+		INNER JOIN juetea ON teacher.teacherid=juetea.tid
+		INNER JOIN juese ON juetea.jeid=juese.jeid
+		INNER JOIN mokuaigl ON juese.jeid=mokuaigl.mkjueseid
+		INNER JOIN mokuai ON mokuaigl.mkid=mokuai.mkid
+
+	</select>
+
+	<insert id="insertMK" parameterType="mokuai">
+		INSERT INTO
+		mokuai(mkname,mkjiedian,jeid)VALUES(#{mkname},#{mkjiedian},#{jeid})
+	</insert>
+
+	<update id="updateMk" parameterType="mokuai">
+		UPDATE mokuai SET
+		mkname=#{mkname} WHERE mkid=#{mkid}
+	</update>
+
+	<delete id="deleteMk">
+		DELETE FROM mokuai WHERE
+		mkid=#{id}
+	</delete>
+</mapper>

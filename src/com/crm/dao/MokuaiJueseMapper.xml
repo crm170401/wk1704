@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.MokuaiJueseMapper">
+<select id="selectAllJuese"  resultType="juese">
+	select * from juese
+</select>
+<select id="selectByIdJuese" parameterType="int" resultType="juese">
+	select * from juese where jeid=#{qz}
+</select>
+<select id="selectAllMokuai"  resultType="mokuai">
+	select * from mokuai
+</select>
+<!-- 修改角色的添加权限 -->
+<update id="updateTianjia" parameterType="juese">
+	UPDATE juese SET jeinsert=#{jeinsert} where jeid=#{jeid}
+</update>
+<!-- 修改角色的修改权限 -->
+<update id="updateXiugai" parameterType="juese">
+	UPDATE juese SET jeupdate=#{jeupdate} where jeid=#{jeid}
+</update>
+<!-- 修改角色的删除权限 -->
+<update id="updateShanchu" parameterType="juese">
+	UPDATE juese SET jedelete=#{jedelete} where jeid=#{jeid}
+</update>
+</mapper>

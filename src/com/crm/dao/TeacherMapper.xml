@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.TeacherMapper">
+	<select id="selectTcLogin" parameterType="teacher" resultType="int">
+		SELECT COUNT(teachpassword) FROM teacher 
+		where teachpassword=#{teachpassword} AND 
+		teacherid=(SELECT teacherid FROM teacher where teachname=#{teachname})		
+	</select>
+	<select id="selectTcQuanXian" parameterType="teacher" resultType="quanxian">
+		SELECT qxsuoding FROM quanxian WHERE qxuserid=(SELECT teacherid FROM teacher WHERE teachname=#{teachname})
+	</select>
+	<select id="selectTcById" parameterType="int" resultType="teacher">
+		SELECT * FROM teacher WHERE teacherid=#{teacherid}
+	</select>
+	<!-- 查询用户id -->
+	<select id="selectTcId" parameterType="teacher" resultType="teacher">
+		SELECT teacherid FROM teacher WHERE teachpassword=#{teachpassword} AND teachname=#{teachname}
+	</select>
+	<update id="updateTcZhuangTai" parameterType="int">
+		UPDATE teacher SET teachzhuangtai="在线" WHERE teacherid=#{teacherid}
+	</update>
+	<select id="selectTeacherData" parameterType="fenye" resultType="teacher">
+		SELECT t.teacherid,t.teachname,t.teachzhuangtai,j.jename,t.teachpassword,t.teachphone,t.teachqiandaoshijian,t.teachqiandaocishu,t.teachxueshengshu,q.qxsuoding FROM teacher t , quanxian q ,juese j 
+		<where>
+			t.teacherid=q.qxuserid and j.jeid=t.teachquanzhong
+			<if test="shiti.qxsuoding!=null">
+			and q.qxsuoding=#{shiti.qxsuoding}
+			</if>
+			<if test="shiti.teachname!=null and shiti.teachname!=''">
+			and t.teachname like "%"#{shiti.teachname}"%"
+			</if>
+		</where>
+		limit #{page},#{pageSize}
+	</select>
+	<select id="selectTeacherDataCount" parameterType="fenye" resultType="int">
+		SELECT count(*) FROM teacher
+		<where>
+			teacherid !=#{shiti.teacherid}
+			<if test="shiti.teachname!=null and shiti.teachname!=''">
+			and teachname like "%"#{shiti.teachname}"%"
+			</if>
+		</where>
+	</select>
+	<delete id="deleteTeacherById" parameterType="int">
+		delete from teacher where teacherid =#{teacherid}
+	</delete>
+	<delete id="deleteTeachQxById" parameterType="int">
+		delete from quanxian where qxuserid =#{teacherid}
+	</delete>
+	<update id="updateQxSuoDing" parameterType="int">
+		UPDATE quanxian SET qxsuoding=1 WHERE qxuserid=#{teacherid}
+	</update>
+	<update id="updateQxJieSuo" parameterType="int">
+		UPDATE quanxian SET qxsuoding=0 WHERE qxuserid=#{teacherid}
+	</update>
+	<insert id="insertTeacher" parameterType="teacher">
+		INSERT INTO teacher(teachname,teachquanzhong,teachpassword,teachphone)VALUES(#{teachname},#{teachquanzhong},#{teachpassword},#{teachphone})
+	</insert>
+	<select id="selectNewTeacherId" parameterType="teacher" resultType="int">
+		select teacherid from teacher where teachname=#{teachname}
+	</select>
+	
+	
+	<update id="updateTeachById" parameterType="teacher">
+		UPDATE teacher SET teachquanzhong=#{teachquanzhong},teachpassword=#{teachpassword},teachphone=#{teachphone} WHERE teacherid=#{teacherid}
+	</update>
+	
+	
+	<insert id="insertTeacherQx"  parameterType="int">
+		INSERT INTO quanxian(qxuserid,qxsuoding,qxinsert,qxdelete,qxupdate,qxselect)VALUES(#{teacherid},0,1,0,0,1)
+	</insert>
+</mapper>

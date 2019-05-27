@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.StuMapper">
+	
+	<resultMap type="stu" id="SelAll">
+		<id column="stuid" property="stuid"/>
+		<result column="sname" property="sname" />
+		<result column="ssex" property="ssex" />
+		<result column="saddress" property="saddress" />
+		<result column="sqingkuang" property="sqingkuang" />
+		<result column="teachname" property="teacher.teachname" />
+		<result column="slianxi" property="slianxi" />
+		<result column="semail" property="semail" />
+		<result column="sweixin" property="sweixin" />
+		<result column="sqq" property="sqq" />
+		<result column="kcname" property="kecheng.kcname" />
+		<result column="sshifouyouxiao" property="sshifouyouxiao" />
+		<result column="swuxiaoyuanyin" property="swuxiaoyuanyin" />
+		<result column="sjiaofei" property="sjiaofei" />
+		<result column="sjiaofeishijian" property="sjiaofeishijian" />
+		<result column="sbaobei" property="sbaobei" />
+		<result column="sdingjin" property="sdingjin" />
+		<result column="sdingjinshijian" property="sdingjinshijian" />
+		<result column="slururen" property="slururen" />
+	</resultMap>
+	 
+	<select id="selectAllStu" parameterType="fenye" resultMap="SelAll">
+		<!-- select * from stu s,kecheng k where s.suoshujiaoshi=k.kcid limit #{page},#{pageSize} -->
+		select * from stu s,kecheng k,teacher t,stuqk qk,huifangqingkuang hf 
+	<where>
+		<if test="shiti.sname!=null and shiti.sname!=''">
+			and sname like "%"#{shiti.sname}"%"
+		</if>
+		<if test="shiti.slianxi!=null and shiti.slianxi!=''">
+			and slianxi=#{shiti.slianxi}
+		</if>
+		<if test="shiti.sqq!=null and shiti.sqq!=''">
+			and sqq=#{shiti.sqq}
+		</if>
+		<if test="shiti.sjiaofei!=null and shiti.sjiaofei!=''">
+			and sjiaofei=#{shiti.sjiaofei}
+		</if>
+		and s.sqingkuang=qk.sqid and s.suoshujiaoshi=t.teacherid and s.skecheng=k.kcid and qk.sqhuifang=hf.sid limit #{page},#{pageSize} 
+	</where>
+
+	</select>
+	
+	<select id="SelectCountStu" parameterType="huiFang" resultType="int">
+		<!-- select * from stu s,kecheng k where s.suoshujiaoshi=k.kcid limit #{page},#{pageSize} -->
+		select count(s.stuid) from stu s,kecheng k,teacher t,stuqk qk,huifangqingkuang hf where s.sqingkuang=qk.sqid and s.suoshujiaoshi=t.teacherid and s.skecheng=k.kcid and qk.sqhuifang=hf.sid limit #{page},#{pageSize} 
+	</select>
+	
+	<select id="selectAllStuqk" parameterType="fenye" resultType="stuqk">
+		select * from stuqk where sqstuid=#{shiti}
+	</select>
+	
+	<select id="selectAllhf" parameterType="fenye" resultType="HuiFang">
+		select * from huifangqingkuang where hfxueshengid=#{shiti}
+	</select>
+</mapper>
+
+

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.ShuMapper">
+	<resultMap type="shu" id="shutree">
+		<id property="id" column="id" />
+		<result property="text" column="text" />
+		<result property="path" column="path" />
+	</resultMap>
+
+	<select id="selectFuTree" parameterType="String"
+		resultMap="shutree">
+		SELECT DISTINCT mokuai.mkid id,mokuai.mkname
+		text,mokuai.mkzhixiang path
+		FROM teacher
+		INNER JOIN juetea ON
+		teacher.teacherid=juetea.tid and
+		teacher.teachname=#{name}
+		INNER JOIN
+		juese ON juetea.jeid=juese.jeid
+		INNER JOIN mokuaigl ON
+		juese.jeid=mokuaigl.mkjueseid
+		INNER JOIN mokuai ON
+		mokuaigl.mkid=mokuai.mkid AND mokuai.mkjiedian=0
+	</select>
+	<select id="selectZiTree" resultMap="shutree">
+		SELECT DISTINCT mokuai.mkid
+		id,mokuai.mkname text,mokuai.mkzhixiang path
+		FROM teacher
+		INNER JOIN
+		juetea ON teacher.teacherid=juetea.tid and
+		teacher.teachname=#{1}
+		INNER
+		JOIN juese ON juetea.jeid=juese.jeid
+		INNER JOIN mokuaigl ON
+		juese.jeid=mokuaigl.mkjueseid
+		INNER JOIN mokuai
+		ON
+		mokuaigl.mkid=mokuai.mkid AND mokuai.mkjiedian=#{0}
+	</select>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.FenpeiMapper">
+	<update id="updatezidong">
+		UPDATE stu s SET s.suoshujiaoshi=(SELECT t.teacherid FROM teacher t ORDER BY teachxueshengshu LIMIT 1) 
+		<where>
+			s.stuid=#{stuid}
+		</where>
+	</update>
+	
+	<update id="updateshoudong">
+		UPDATE stu SET stu.suoshujiaoshi =#{suoshujiaoshi} 
+		<where>
+			stuid=#{stuid}
+		</where>
+	</update>
+</mapper>
+
+

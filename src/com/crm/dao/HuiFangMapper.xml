@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.HuiFangMapper">
+
+
+	<select id="selcetCou" parameterType="fenye" resultType="int">
+		SELECT
+		COUNT( 1) FROM huifangqingkuang
+	</select>
+
+	<select id="selectHuifang" parameterType="fenye"
+		resultType="huifang">
+		SELECT *FROM huifangqingkuang
+		limit #{page},#{pageSize}
+		<!-- <where>
+			<if test="huifangren !=null and huifangren !=''">
+				huifangren=#{huifangren}
+			</if>
+		</where> -->
+		
+		
+	</select>
+	<insert id="insertHui" parameterType="huifang">
+		INSERT INTO huifangqingkuang
+		(huifangshiji,huifangren,kehuyixiang,kehudengji,shifoushangmen,shangmenqingkuang)
+		VALUES(#{huifangshiji},#{huifangren},#{kehuyixiang},#{kehudengji},#{shifoushangmen},#{shangmenqingkuang})
+	</insert>
+</mapper>
