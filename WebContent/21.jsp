@@ -92,6 +92,7 @@
 </script>
 </head>
 <body>
+<div></div>
 	<div id="JueseTab">
 		<a href="javascript:void(0)" style="float: right;"
 			onclick="addJuese(1)" class="easyui-linkbutton"
