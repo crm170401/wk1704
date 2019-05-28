@@ -44,6 +44,7 @@ $(function(){
 				{field:'1',title:'操作',width:60,formatter:CZ2},
 				{field:'2',title:'操作',width:60,formatter:CZ1},
 				{field:'3',title:'操作',width:60,formatter:CZ3},
+				{field:'4',title:'操作',width:60,formatter:MES},
 			]],
 			queryParams: {
 				teachname:$("#teacherName").val(),
@@ -52,7 +53,10 @@ $(function(){
 
 		}); 
 	}
-	
+	function MES(value,row,index){
+		var name=row.teachname;
+		return "<a href='message.jsp?teachname="+name+"'>信息</a>";
+	}
 	function CZ1(value,row,index){
 		if (Delete == 1) {
 			return "<button onclick='DEL("+index+")'>删除</button>";

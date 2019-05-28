@@ -43,7 +43,9 @@
 								{
 									title : text,
 									closable : true,
-									content : "<iframe src='"+ url+ "' style='width: 100%; height: 600px;'/>"
+									content : "<iframe src='"
+											+ url
+											+ ".jsp' style='width: 100%; height: 600px;'/>"
 								});
 			}
 		}
@@ -56,68 +58,8 @@
 			}
 		});
 	}
-	
-	function editPassword(){
-		$("#xiugaidialog").dialog("open");
-	 	
-		
-	}
-	function yanzheng(){
-		var oldpassword=$("#oldpassword").val();
-		var newpassword=newpassword=$("#newpassword").val()
-		$.messager.confirm('确认', '您确认想要修改您的密码吗？', function(r) {
-			if(r){ 
-				$.post("xiugaimima",{
-					oldpassword:oldpassword,
-					newpassword:newpassword
-				},function(res){
-					if(res==0){
-						alert("旧密码不能为空");
-					}else if(res==1){
-						alert("请输入新密码");
-					}else if(res==2){
-						alert("旧密码不正确");
-					}else if(res==3){
-						alert("修改失败");
-					}else{
-						alert("修改成功,请重新登录");
-						$.post("qingkong",{
-							r:true
-						},function(res){
-							if(res>0){
-								window.location.href = "Login.jsp";
-							}
-						})
-					}
-				})
-			 }
-		} )
-		
-		
-	}
 </script>
 </head>
-<div id="xiugaidialog" class="easyui-dialog" data-options="closed:true">
-	<form id="ff" method="post">   
-		<table>
-			<tr>
-				<td>请输入旧密码:</td>
-				<td><input class="easyui-validatebox" id="oldpassword" type="password"/></td>
-			</tr>
-			<tr>
-				<td>请输入新密码:</td>
-				<td><input class="easyui-validatebox" id="newpassword" type="password"/></td>
-			</tr>
-			<tr>
-				<td>请再次输入新密码:</td>
-				<td><input class="easyui-validatebox" id="newpasswordtwo" type="password"/></td>
-				<td><a id="btn" href="#" class="easyui-linkbutton" onclick="yanzheng()">修改</a></td>
-			</tr>
-			
-		</table>
-	</form> 
-</div>
-
 <body class="easyui-layout">
 	<div data-options="region:'north',border:false,split:true"
 		style="height: 70px; position: relative; z-index: 0; overflow: hidden; border-bottom: 1px #95b8e7 solid; background: url(img/01.jpg) bottom repeat-x;">

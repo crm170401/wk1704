@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.JueseMapper">
+
+<select id="selectJuese" resultType="juese" >
+select * from juese
+</select>
+<select id="selectChongMingJuese" parameterType="String" resultType="int" >
+select count(*) from juese where jename=#{jename}
+</select>
+<insert id="insertJuese" parameterType="String">
+	INSERT INTO juese(jename) VALUES (#{jename});
+</insert>
+<select id="selectZhanYongJuese" parameterType="int" resultType="int" >
+select count(*) from mokuaigl where mkjueseid=#{jeid}
+</select>
+<delete id="deleteJuese" parameterType="int">
+delete from juese where jeid=#{jeid}
+</delete>
+</mapper>
